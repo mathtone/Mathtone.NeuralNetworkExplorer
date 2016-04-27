@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathtone.NeuralNetworkExplorer", "Mathtone.NeuralNetworkExplorer\Mathtone.NeuralNetworkExplorer.csproj", "{066FB9BF-3CDA-48A6-B3BD-E4CABA1B36DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathtone.NeuralNetworks", "Mathtone.NeuralNetworks\Mathtone.NeuralNetworks.csproj", "{4C92C1F7-84B4-4A61-9201-8822A28604D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{066FB9BF-3CDA-48A6-B3BD-E4CABA1B36DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{066FB9BF-3CDA-48A6-B3BD-E4CABA1B36DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{066FB9BF-3CDA-48A6-B3BD-E4CABA1B36DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{066FB9BF-3CDA-48A6-B3BD-E4CABA1B36DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C92C1F7-84B4-4A61-9201-8822A28604D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C92C1F7-84B4-4A61-9201-8822A28604D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C92C1F7-84B4-4A61-9201-8822A28604D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C92C1F7-84B4-4A61-9201-8822A28604D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
