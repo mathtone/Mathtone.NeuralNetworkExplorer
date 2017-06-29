@@ -14,8 +14,6 @@ using System.Windows.Media.Imaging;
 
 namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 
-
-
 	[Notifier(NotificationMode.Implicit)]
 	public class ClusteringDemoVM : ViewModel {
 
@@ -42,7 +40,7 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 		public ClusteringDemoVM() {
 			DisplayChannels.PropertyChanged += DisplayChannels_PropertyChanged;
 			OpenCommand = new DelegateCommand(Initialize);
-			TrainCommand = new DelegateCommand(TrainNetwork);
+			TrainCommand = new DelegateCommand(async ()=>await BeginTrainNetwork());
 			ResetCommand = new DelegateCommand(Reset);
 			StopCommand = new DelegateCommand(Stop);
 		}
@@ -89,9 +87,8 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 				var neurons = network.Layers[0].Neurons;
 				var i = 0;
 
-				//Go from left-right, top-bottom as per...
-
-				for (var y = 0; y < h; y++) {
+                //Go from top-bottom, left-right as per...
+                for (var y = 0; y < h; y++) {
 					for (var x = 0; x < w; x++, i++) {
 						var loc = y * s + x * bpp;
 						var weights = neurons[i].InputWeights;
@@ -120,8 +117,8 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 			BitMap.Unlock();
 		}
 
-		void TrainNetwork() {
-			Task.Factory.StartNew(() => {
+		async Task BeginTrainNetwork() {
+			await Task.Factory.StartNew(() => {
 				lock (locker) {
 					ReadyToTrain = false;
 					Training = true;

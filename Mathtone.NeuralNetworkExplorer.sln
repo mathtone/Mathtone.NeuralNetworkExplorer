@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathtone.NeuralNetworkExplorer", "Mathtone.NeuralNetworkExplorer\Mathtone.NeuralNetworkExplorer.csproj", "{066FB9BF-3CDA-48A6-B3BD-E4CABA1B36DE}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathtone.NeuralNetworks", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CA4C67D0-6C1D-4A5C-B50E-655B0B638E0F}"
 	ProjectSection(SolutionItems) = preProject
-		LICENCE.txt = LICENCE.txt
+		LICENSE.txt = LICENSE.txt
 	EndProjectSection
 EndProject
 Global
