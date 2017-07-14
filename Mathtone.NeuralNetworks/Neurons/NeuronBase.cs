@@ -39,9 +39,8 @@ namespace Mathtone.NeuralNetworks.Neurons {
 		/// </summary>
 		/// <param name="input">Input values.</param>
 		/// <returns>System.Double.</returns>
-		public double Compute(double[] input) {
-			return Output = ComputeOutput(input);
-		}
+		public double Compute(double[] input) =>
+            Output = ComputeOutput(input);
 
 		/// <summary>
 		/// Computes output value for the specified input.
