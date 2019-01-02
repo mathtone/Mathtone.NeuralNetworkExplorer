@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Mathtone.NeuralNetworkExplorer.ViewModels {
+
 	[Notifier(NotificationMode.Implicit)]
 	public class DisplayChannelVM : ViewModel {
 		public bool ShowRed { get; set; } = true;

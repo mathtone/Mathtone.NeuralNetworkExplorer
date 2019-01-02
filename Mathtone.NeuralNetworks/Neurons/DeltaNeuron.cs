@@ -30,7 +30,6 @@ namespace Mathtone.NeuralNetworks.Neurons {
 			for (int i = 0; i < InputWeights.Length; i++) {
 				rtn += Math.Abs(InputWeights[i] - inputs[i]);
 			}
-
 			return rtn;
 		}
 	}

@@ -99,8 +99,17 @@ namespace Mathtone.NeuralNetworks.Training {
 		/// </summary>
 		/// <param name="input">The input.</param>
 		/// <returns>System.Double.</returns>
-		public double Run(IEnumerable<double[]> input) =>
-			input.Sum(a => Run(a));
+		public double Run(double[][] input) {
+			var err = 0.0;
+			for (var i = 0; i < input.Length; i++) {
+				err += Run(input[i]);
+			}
+			//foreach (var i in input) {
+			//	err += Run(i);
+			//}
+			return err;
+		}
+		//input.Sum(a => Run(a));
 
 		//	var err = 0.0;
 		//	foreach (var i in input) {

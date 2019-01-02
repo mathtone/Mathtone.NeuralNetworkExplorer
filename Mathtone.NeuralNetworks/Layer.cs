@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mathtone.NeuralNetworks
-{
+namespace Mathtone.NeuralNetworks {
 	/// <summary>
 	/// A layer of neurons.
 	/// </summary>
@@ -40,7 +39,6 @@ namespace Mathtone.NeuralNetworks
 		/// <returns>System.Double[].</returns>
 		public virtual double[] Compute(double[] inputs) {
 
-			// compute each neuron's output
 			for (int i = 0; i < Neurons.Length; i++) {
 				Output[i] = Neurons[i].Compute(inputs);
 			}
