@@ -52,17 +52,15 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 				CurrentIteration = 0;
 				ReadyToTrain = false;
 
-				//Initialize neural network
 				network = new NeuralNetwork();
 				var l1 = new Layer(new DeltaNeuron[MapWidth * MapWidth]);
 				for (var i = 0; i < l1.Neurons.Length; i++) {
 					l1.Neurons[i] = new DeltaNeuron(3);
 				}
-				//l1.Scramble(0, 255);
+
 				l1.Scramble(0, 1);
 				network.Layers.Add(l1);
 
-				//Create a bitmap to which we can draw
 				var width = (int)Math.Sqrt(network.Layers[0].Neurons.Length);
 				Application.Current.Dispatcher.Invoke(() => {
 					BitMap = new WriteableBitmap(width, width, 96, 96, PixelFormats.Rgb24, null);
@@ -78,12 +76,12 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 
 			BitMap.Lock();
 			unsafe {
-				byte* pbuff = (byte*)BitMap.BackBuffer.ToPointer();
+
+				var pbuff = (byte*)BitMap.BackBuffer.ToPointer();
 				var bpp = BitMap.Format.BitsPerPixel / 8;
 				var h = BitMap.Height;
 				var w = BitMap.Width;
 				var s = BitMap.BackBufferStride;
-
 				var neurons = network.Layers[0].Neurons;
 				var i = 0;
 
@@ -120,20 +118,20 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 		async Task BeginTrainNetwork() {
 			await Task.Factory.StartNew(() => {
 				lock (locker) {
+
 					ReadyToTrain = false;
 					Training = true;
+					IsRunning = true;
 					Status = "Training";
 
 					var localIteration = 0;
 					var rand = new Random();
 					var width = (int)Math.Sqrt(network.Layers[0].Neurons.Length);
 					var trainer = new SOMTrainer(width, width, network);
-					var input = new double[3];
 					var fixedLearningRate = LearningRate / 10.0;
 					var driftingLearningRate = fixedLearningRate * 9.0;
 					var maxIterations = Iterations + CurrentIteration;
-
-					IsRunning = true;
+					var input = new double[3];
 
 					while (CurrentIteration < maxIterations && IsRunning) {
 
