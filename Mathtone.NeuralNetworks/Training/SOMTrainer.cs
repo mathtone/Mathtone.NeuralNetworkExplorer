@@ -11,8 +11,8 @@ namespace Mathtone.NeuralNetworks.Training {
 	/// </summary>
 	public class SOMTrainer {
 
-		private int width;
-		private int height;
+		private readonly int width;
+		private readonly int height;
 		private NeuralNetwork network;
 
 		public double LearningRate { get; set; } = 0.1;
@@ -104,18 +104,7 @@ namespace Mathtone.NeuralNetworks.Training {
 			for (var i = 0; i < input.Length; i++) {
 				err += Run(input[i]);
 			}
-			//foreach (var i in input) {
-			//	err += Run(i);
-			//}
 			return err;
 		}
-		//input.Sum(a => Run(a));
-
-		//	var err = 0.0;
-		//	foreach (var i in input) {
-		//		err += Run(i);
-		//	}
-		//	return err;
-		//}
 	}
 }
