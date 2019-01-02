@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="Mathtone.NeuralNetworkExplorer.Controls.ClusteringDemoView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+			 xmlns:vm="clr-namespace:Mathtone.NeuralNetworkExplorer.ViewModels"
+			 xmlns:local="clr-namespace:Mathtone.NeuralNetworkExplorer.Controls"
+			 mc:Ignorable="d"
+			 d:DataContext="{d:DesignInstance Type={x:Type vm:ClusteringDemoVM}}"
+			 d:DesignHeight="300" d:DesignWidth="600">
+	<UserControl.Resources>
+		<BooleanToVisibilityConverter x:Key="BoolToVis"/>
+		<!--<Style TargetType="{x:Type TextBox}">
+			<Setter Property="Background" Value="Black"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="BorderBrush" Value="Gray"/>
+		</Style>-->
+		<!--<Style TargetType="{x:Type CheckBox}">
+			<Setter Property="Background" Value="Black"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="BorderBrush" Value="Gray"/>
+		</Style>-->
+	</UserControl.Resources>
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Loaded">
+			<i:InvokeCommandAction Command="{Binding OpenCommand}"/>
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+	<DockPanel>
+		<DockPanel>
+			<Border Width="150" DockPanel.Dock="Right" >
+				<StackPanel Orientation="Vertical"  Margin="5" >
+					<TextBlock Text="Parameters" HorizontalAlignment="Center" />
+					<Border BorderThickness="1">
+						<StackPanel Orientation="Vertical" Margin="2">
+							<StackPanel.Resources>
+								<Style TargetType="{x:Type Grid}">
+									<Setter Property="Margin" Value="2"/>
+								</Style>
+							</StackPanel.Resources>
+							<Grid >
+								<TextBlock Text="Map Width" HorizontalAlignment="Left"/>
+								<TextBox Width="50" HorizontalAlignment="Right" Text="{Binding MapWidth}" IsEnabled="{Binding ReadyToTrain, Mode=OneWay}"/>
+							</Grid>
+							<Grid >
+								<TextBlock Text="Iterations" HorizontalAlignment="Left"/>
+								<TextBox Width="50" HorizontalAlignment="Right" Text="{Binding Iterations}" IsEnabled="{Binding ReadyToTrain, Mode=OneWay}"/>
+							</Grid>
+							<Grid >
+								<TextBlock Text="IQ" HorizontalAlignment="Left"/>
+								<TextBox Width="50" HorizontalAlignment="Right" Text="{Binding LearningRate}" IsEnabled="{Binding ReadyToTrain, Mode=OneWay}"/>
+							</Grid>
+							<Grid >
+								<TextBlock Text="Cluster Radius" HorizontalAlignment="Left"/>
+								<TextBox Width="50" HorizontalAlignment="Right" Text="{Binding ClusterRadius}" IsEnabled="{Binding ReadyToTrain, Mode=OneWay}"/>
+							</Grid>
+							<TextBlock Text="Current Iteration" HorizontalAlignment="Center" />
+							<TextBlock Text="{Binding CurrentIteration}" HorizontalAlignment="Center" />
+						</StackPanel>
+					</Border>
+					<TextBlock Text="Channels" HorizontalAlignment="Center"/>
+					<Border BorderThickness="1" VerticalAlignment="Bottom">
+						<StackPanel>
+						<StackPanel Orientation="Vertical" Margin="2" DataContext="{Binding DisplayChannels}">
+							<CheckBox Content="Red" IsChecked="{Binding ShowRed}"/>
+							<CheckBox Content="Green" IsChecked="{Binding ShowGreen}"/>
+							<CheckBox Content="Blue" IsChecked="{Binding ShowBlue}"/>
+							<CheckBox Content="Grayscale" IsChecked="{Binding ShowGrayscale}"/>
+						</StackPanel>
+							<StackPanel Orientation="Vertical" Margin="2">
+								<Button Content="GO" Margin="4" Command="{Binding TrainCommand}" Visibility="{Binding ReadyToTrain, Converter={StaticResource BoolToVis}}"/>
+								<Button Content="STOP" Margin="4" Command="{Binding StopCommand}" Visibility="{Binding Training, Converter={StaticResource BoolToVis}}"/>
+								<Button Content="RESET" Margin="4" Command="{Binding ResetCommand}" />
+							</StackPanel>
+						</StackPanel>
+					</Border>
+					<!--<Border BorderThickness="1" VerticalAlignment="Bottom">
+						<StackPanel Orientation="Vertical" Margin="2">
+							<Button Content="GO" Margin="4" Command="{Binding TrainCommand}" Visibility="{Binding ReadyToTrain, Converter={StaticResource BoolToVis}}"/>
+							<Button Content="STOP" Margin="4" Command="{Binding StopCommand}" Visibility="{Binding Training, Converter={StaticResource BoolToVis}}"/>
+							<Button Content="RESET" Margin="4" Command="{Binding ResetCommand}" />
+						</StackPanel>
+					</Border>-->
+				</StackPanel>
+			</Border>
+			<DockPanel>
+				<TextBlock Text="Self Organizing Map" DockPanel.Dock="Top" HorizontalAlignment="Center"/>
+				<TextBlock Text="{Binding Status}" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="5,0,0,5"/>
+				<Border BorderThickness="1" Margin="5">
+					<Image Source="{Binding BitMap}" Margin="5"/>
+				</Border>
+			</DockPanel>
+		</DockPanel>
+	</DockPanel>
+</UserControl>

@@ -37,10 +37,10 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 
 		public DisplayChannelVM DisplayChannels { get; } = new DisplayChannelVM();
 
-		public ClusteringDemoVM() {
+		public ClusteringDemoVM(IApplicationContext context) {
 			DisplayChannels.PropertyChanged += DisplayChannels_PropertyChanged;
 			OpenCommand = new DelegateCommand(Initialize);
-			TrainCommand = new DelegateCommand(async ()=>await BeginTrainNetwork());
+			TrainCommand = new DelegateCommand(async () => await BeginTrainNetwork());
 			ResetCommand = new DelegateCommand(Reset);
 			StopCommand = new DelegateCommand(Stop);
 		}
@@ -58,7 +58,8 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 				for (var i = 0; i < l1.Neurons.Length; i++) {
 					l1.Neurons[i] = new DeltaNeuron(3);
 				}
-				l1.Scramble(0, 255);
+				//l1.Scramble(0, 255);
+				l1.Scramble(0, 1);
 				network.Layers.Add(l1);
 
 				//Create a bitmap to which we can draw
@@ -76,8 +77,7 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 		void UpdateMap() {
 
 			BitMap.Lock();
-			unsafe
-			{
+			unsafe {
 				byte* pbuff = (byte*)BitMap.BackBuffer.ToPointer();
 				var bpp = BitMap.Format.BitsPerPixel / 8;
 				var h = BitMap.Height;
@@ -87,15 +87,15 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 				var neurons = network.Layers[0].Neurons;
 				var i = 0;
 
-                //Go from top-bottom, left-right as per...
-                for (var y = 0; y < h; y++) {
+				//Go from top-bottom, left-right as per...
+				for (var y = 0; y < h; y++) {
 					for (var x = 0; x < w; x++, i++) {
 						var loc = y * s + x * bpp;
 						var weights = neurons[i].InputWeights;
 						//Use weights for R, G & B values
-						var r = DisplayChannels.ShowRed ? weights[0] : 0;
-						var g = DisplayChannels.ShowGreen ? weights[1] : 0;
-						var b = DisplayChannels.ShowBlue ? weights[2] : 0;
+						var r = DisplayChannels.ShowRed ? weights[0] * 255 : 0;
+						var g = DisplayChannels.ShowGreen ? weights[1] * 255 : 0;
+						var b = DisplayChannels.ShowBlue ? weights[2] * 255 : 0;
 
 						if (DisplayChannels.ShowGrayscale) {
 							var f = 1d / (Convert.ToInt32(DisplayChannels.ShowRed) + Convert.ToInt32(DisplayChannels.ShowGreen) + Convert.ToInt32(DisplayChannels.ShowBlue));
@@ -123,7 +123,8 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 					ReadyToTrain = false;
 					Training = true;
 					Status = "Training";
-					var i = 0;
+
+					var localIteration = 0;
 					var rand = new Random();
 					var width = (int)Math.Sqrt(network.Layers[0].Neurons.Length);
 					var trainer = new SOMTrainer(width, width, network);
@@ -136,20 +137,20 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 
 					while (CurrentIteration < maxIterations && IsRunning) {
 
-						trainer.LearningRate = driftingLearningRate * (Iterations - i) / Iterations + this.LearningRate;
-						trainer.LearningRadius = (double)ClusterRadius * (Iterations - i) / Iterations;
+						trainer.LearningRate = driftingLearningRate * (Iterations - localIteration) / Iterations + this.LearningRate;
+						trainer.LearningRadius = (double)ClusterRadius * (Iterations - localIteration) / Iterations;
 
-						input[0] = rand.Next(256);
-						input[1] = rand.Next(256);
-						input[2] = rand.Next(256);
+						for (var i = 0; i < input.Length; i++) {
+							input[i] = rand.NextDouble();
+						}
 
 						trainer.Run(input);
 
-						if ((CurrentIteration % 10) == 0) {
+						if (CurrentIteration % 20 == 0) {
 							BitMap.Dispatcher.Invoke(UpdateMap);
 						}
 						CurrentIteration++;
-						i++;
+						localIteration++;
 					}
 					BitMap.Dispatcher.Invoke(UpdateMap);
 					Status = "Ready";
@@ -159,16 +160,13 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 			});
 		}
 
-		void Reset() {
+		void Reset() =>
 			Initialize();
-		}
 
-		void Stop() {
+		void Stop() =>
 			IsRunning = false;
-		}
 
-		private void DisplayChannels_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+		private void DisplayChannels_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) =>
 			UpdateMap();
-		}
 	}
 }

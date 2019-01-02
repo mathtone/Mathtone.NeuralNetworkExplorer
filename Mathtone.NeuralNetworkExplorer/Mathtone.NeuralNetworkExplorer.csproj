@@ -74,14 +74,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\ClusteringDemoScreen.xaml.cs">
-      <DependentUpon>ClusteringDemoScreen.xaml</DependentUpon>
+    <Compile Include="Controls\ClusteringDemoView.xaml.cs">
+      <DependentUpon>ClusteringDemoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ApplicationVM.cs" />
     <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="ViewModels\ClusteringDemoVM.cs" />
     <Compile Include="ViewModels\DisplayChannelVM.cs" />
-    <Page Include="Controls\ClusteringDemoScreen.xaml">
+    <Page Include="Controls\ClusteringDemoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

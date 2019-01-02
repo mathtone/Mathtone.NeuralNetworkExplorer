@@ -55,7 +55,7 @@ namespace Mathtone.NeuralNetworks.Training {
 		/// Trains network with the specified input set.
 		/// </summary>
 		/// <param name="input">The input.</param>
-		/// <returns>System.Double.</returns>
+		/// <returns>System.Double</returns>
 		public double Run(double[] input) {
 
 			var err = 0.0;
@@ -99,12 +99,14 @@ namespace Mathtone.NeuralNetworks.Training {
 		/// </summary>
 		/// <param name="input">The input.</param>
 		/// <returns>System.Double.</returns>
-		public double Run(IEnumerable<double[]> input) {
-			var err = 0.0;
-			foreach (var i in input) {
-				err += Run(i);
-			}
-			return err;
-		}
+		public double Run(IEnumerable<double[]> input) =>
+			input.Sum(a => Run(a));
+
+		//	var err = 0.0;
+		//	foreach (var i in input) {
+		//		err += Run(i);
+		//	}
+		//	return err;
+		//}
 	}
 }
