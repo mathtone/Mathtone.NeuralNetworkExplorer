@@ -62,19 +62,25 @@
 					<TextBlock Text="Channels" HorizontalAlignment="Center"/>
 					<Border BorderThickness="1" VerticalAlignment="Bottom">
 						<StackPanel>
-						<StackPanel Orientation="Vertical" Margin="2" DataContext="{Binding DisplayChannels}">
-							<CheckBox Content="Red" IsChecked="{Binding ShowRed}"/>
-							<CheckBox Content="Green" IsChecked="{Binding ShowGreen}"/>
-							<CheckBox Content="Blue" IsChecked="{Binding ShowBlue}"/>
-							<CheckBox Content="Grayscale" IsChecked="{Binding ShowGrayscale}"/>
-						</StackPanel>
-							<StackPanel Orientation="Vertical" Margin="2">
-								<Button Content="GO" Margin="4" Command="{Binding TrainCommand}" Visibility="{Binding ReadyToTrain, Converter={StaticResource BoolToVis}}"/>
-								<Button Content="STOP" Margin="4" Command="{Binding StopCommand}" Visibility="{Binding Training, Converter={StaticResource BoolToVis}}"/>
-								<Button Content="RESET" Margin="4" Command="{Binding ResetCommand}" />
+							<StackPanel Orientation="Vertical" Margin="2" >
+								<CheckBox Content="Red" IsChecked="{Binding DisplayChannels.ShowRed}"/>
+								<CheckBox Content="Green" IsChecked="{Binding DisplayChannels.ShowGreen}"/>
+								<CheckBox Content="Blue" IsChecked="{Binding DisplayChannels.ShowBlue}"/>
+								<CheckBox Content="Grayscale" IsChecked="{Binding DisplayChannels.ShowGrayscale}"/>
+
 							</StackPanel>
+
 						</StackPanel>
 					</Border>
+
+					<TextBlock Text="Refresh Rate" HorizontalAlignment="Center"/>
+					<TextBox Text="{Binding RefreshRate}" Width="50"/>
+
+					<StackPanel Orientation="Vertical" Margin="2">
+						<Button Content="GO" Margin="4" Command="{Binding TrainCommand}" Visibility="{Binding ReadyToTrain, Converter={StaticResource BoolToVis}}"/>
+						<Button Content="STOP" Margin="4" Command="{Binding StopCommand}" Visibility="{Binding Training, Converter={StaticResource BoolToVis}}"/>
+						<Button Content="RESET" Margin="4" Command="{Binding ResetCommand}" />
+					</StackPanel>
 					<!--<Border BorderThickness="1" VerticalAlignment="Bottom">
 						<StackPanel Orientation="Vertical" Margin="2">
 							<Button Content="GO" Margin="4" Command="{Binding TrainCommand}" Visibility="{Binding ReadyToTrain, Converter={StaticResource BoolToVis}}"/>

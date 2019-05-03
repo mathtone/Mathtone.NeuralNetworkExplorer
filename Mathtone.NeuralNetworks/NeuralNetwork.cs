@@ -15,7 +15,7 @@ namespace Mathtone.NeuralNetworks {
 		/// Geta the layers present in this network.
 		/// </summary>
 		/// <value>The layers.</value>
-		public List<Layer> Layers { get; } = new List<Layer>();
+		public IList<Layer> Layers { get; }
 
 		/// <summary>
 		/// Gets the output of th elast layer.
@@ -23,10 +23,21 @@ namespace Mathtone.NeuralNetworks {
 		/// <value>The output.</value>
 		public double[] Output => Layers.Last().Output;
 
+		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NeuralNetwork"/> class.
 		/// </summary>
-		public NeuralNetwork() { }
+		public NeuralNetwork() {
+			this.Layers = new List<Layer>();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="NeuralNetwork"/> class.
+		/// </summary>
+		/// /// <param name="layers">Layers to be included in the network.</param>
+		public NeuralNetwork(params Layer[] layers) {
+			this.Layers = layers.ToList();
+		}
 
 		/// <summary>
 		/// Randomizes input weights for all neirons in the network.

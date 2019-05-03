@@ -78,9 +78,9 @@
       <DependentUpon>ClusteringDemoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ApplicationVM.cs" />
-    <Compile Include="ViewModels\BindableBase.cs" />
     <Compile Include="ViewModels\ClusteringDemoVM.cs" />
     <Compile Include="ViewModels\DisplayChannelVM.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="Controls\ClusteringDemoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,10 +126,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Mathtone.NeuralNetworks\Mathtone.NeuralNetworks.csproj">
-      <Project>{4c92c1f7-84b4-4a61-9201-8822a28604d8}</Project>
+      <Project>{310a6158-c540-4100-98f2-64cd65b5cf71}</Project>
       <Name>Mathtone.NeuralNetworks</Name>
     </ProjectReference>
   </ItemGroup>

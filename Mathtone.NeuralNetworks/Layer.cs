@@ -11,6 +11,8 @@ namespace Mathtone.NeuralNetworks {
 	/// </summary>
 	public class Layer {
 
+		Random random = new Random();
+
 		/// <summary>
 		/// Gets or sets the neurons contained in the layer.
 		/// </summary>
@@ -52,8 +54,11 @@ namespace Mathtone.NeuralNetworks {
 		/// <param name="min">Minimum input weight value.</param>
 		/// <param name="max">Maximum input weight value.</param>
 		public void Scramble(double min = 0, double max = 1) {
+			var l = max - min;
 			foreach (var n in Neurons) {
-				n.Scramble(min, max);
+				for(var i = 0; i < n.InputWeights.Length; i++) {
+					n.InputWeights[i] = random.NextDouble() * l + min;
+				}
 			}
 		}
 	}

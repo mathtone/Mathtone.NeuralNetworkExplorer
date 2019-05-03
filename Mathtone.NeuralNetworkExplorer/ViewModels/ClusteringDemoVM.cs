@@ -5,6 +5,7 @@ using Mathtone.NeuralNetworks.Training;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,50 +30,53 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 		public bool ReadyToTrain { get; protected set; } = false;
 		public bool Training { get; protected set; } = false;
 		public bool IsRunning { get; protected set; } = false;
+		public int RefreshRate { get; set; } = 20;
 		public WriteableBitmap BitMap { get; protected set; }
 		public DelegateCommand OpenCommand { get; protected set; }
 		public DelegateCommand TrainCommand { get; protected set; }
 		public DelegateCommand ResetCommand { get; protected set; }
 		public DelegateCommand StopCommand { get; protected set; }
-
 		public DisplayChannelVM DisplayChannels { get; } = new DisplayChannelVM();
 
 		public ClusteringDemoVM(IApplicationContext context) {
 			DisplayChannels.PropertyChanged += DisplayChannels_PropertyChanged;
-			OpenCommand = new DelegateCommand(Initialize);
+			OpenCommand = new DelegateCommand(async () => await Initialize());
 			TrainCommand = new DelegateCommand(async () => await BeginTrainNetwork());
-			ResetCommand = new DelegateCommand(Reset);
-			StopCommand = new DelegateCommand(Stop);
+			ResetCommand = new DelegateCommand(async () => await Reset());
+			StopCommand = new DelegateCommand(async () => await Stop());
 		}
 
-		void Initialize() {
-			lock (locker) {
+		protected async Task Initialize() {
+			await Task.Factory.StartNew(() => {
+				lock (locker) {
 
-				Status = "Initializing";
-				CurrentIteration = 0;
-				ReadyToTrain = false;
+					Status = "Initializing";
+					CurrentIteration = 0;
+					ReadyToTrain = false;
 
-				network = new NeuralNetwork();
-				var l1 = new Layer(new DeltaNeuron[MapWidth * MapWidth]);
-				for (var i = 0; i < l1.Neurons.Length; i++) {
-					l1.Neurons[i] = new DeltaNeuron(3);
+					network = new NeuralNetwork();
+
+					var l1 = new Layer(new DeltaNeuron[MapWidth * MapWidth]);
+					for (var i = 0; i < l1.Neurons.Length; i++) {
+						l1.Neurons[i] = new DeltaNeuron(3);
+					}
+
+					l1.Scramble(0, 1);
+					network.Layers.Add(l1);
+
+					var width = (int)Math.Sqrt(network.Layers[0].Neurons.Length);
+					Application.Current.Dispatcher.Invoke(() => {
+						BitMap = new WriteableBitmap(width, width, 96, 96, PixelFormats.Rgb24, null);
+						UpdateMap();
+					});
+
+					ReadyToTrain = true;
+					Status = "Ready";
 				}
-
-				l1.Scramble(0, 1);
-				network.Layers.Add(l1);
-
-				var width = (int)Math.Sqrt(network.Layers[0].Neurons.Length);
-				Application.Current.Dispatcher.Invoke(() => {
-					BitMap = new WriteableBitmap(width, width, 96, 96, PixelFormats.Rgb24, null);
-					UpdateMap();
-				});
-
-				Status = "Ready";
-				ReadyToTrain = true;
-			}
+			});
 		}
 
-		void UpdateMap() {
+		protected void UpdateMap() {
 
 			BitMap.Lock();
 			unsafe {
@@ -85,18 +89,18 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 				var neurons = network.Layers[0].Neurons;
 				var i = 0;
 
-				//Go from top-bottom, left-right as per...
 				for (var y = 0; y < h; y++) {
 					for (var x = 0; x < w; x++, i++) {
+
 						var loc = y * s + x * bpp;
 						var weights = neurons[i].InputWeights;
-						//Use weights for R, G & B values
 						var r = DisplayChannels.ShowRed ? weights[0] * 255 : 0;
 						var g = DisplayChannels.ShowGreen ? weights[1] * 255 : 0;
 						var b = DisplayChannels.ShowBlue ? weights[2] * 255 : 0;
 
 						if (DisplayChannels.ShowGrayscale) {
-							var f = 1d / (Convert.ToInt32(DisplayChannels.ShowRed) + Convert.ToInt32(DisplayChannels.ShowGreen) + Convert.ToInt32(DisplayChannels.ShowBlue));
+							var v = Convert.ToInt32(DisplayChannels.ShowRed) + Convert.ToInt32(DisplayChannels.ShowGreen) + Convert.ToInt32(DisplayChannels.ShowBlue);
+							var f = 1d / v;
 							var gray = (byte)(f * r + f * g + f * b);
 							pbuff[loc] = gray;
 							pbuff[loc + 1] = gray;
@@ -115,7 +119,7 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 			BitMap.Unlock();
 		}
 
-		async Task BeginTrainNetwork() {
+		protected async Task BeginTrainNetwork() {
 			await Task.Factory.StartNew(() => {
 				lock (locker) {
 
@@ -144,8 +148,11 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 
 						trainer.Run(input);
 
-						if (CurrentIteration % 20 == 0) {
-							BitMap.Dispatcher.Invoke(UpdateMap);
+						if (CurrentIteration % RefreshRate == 0) {
+							try {
+								BitMap.Dispatcher.Invoke(UpdateMap);
+							}
+							catch (TaskCanceledException) { }
 						}
 						CurrentIteration++;
 						localIteration++;
@@ -158,13 +165,13 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 			});
 		}
 
-		void Reset() =>
-			Initialize();
+		protected async Task Reset() =>
+			await Initialize();
 
-		void Stop() =>
-			IsRunning = false;
+		protected async Task Stop() =>
+			await Task.Factory.StartNew(() => IsRunning = false);
 
-		private void DisplayChannels_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) =>
+		private void DisplayChannels_PropertyChanged(object sender, PropertyChangedEventArgs e) =>
 			UpdateMap();
 	}
 }
