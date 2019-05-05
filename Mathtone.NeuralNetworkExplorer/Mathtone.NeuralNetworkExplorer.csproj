@@ -77,6 +77,7 @@
     <Compile Include="Controls\ClusteringDemoView.xaml.cs">
       <DependentUpon>ClusteringDemoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ViewModels\ApplicationVM.cs" />
     <Compile Include="ViewModels\ClusteringDemoVM.cs" />
     <Compile Include="ViewModels\DisplayChannelVM.cs" />

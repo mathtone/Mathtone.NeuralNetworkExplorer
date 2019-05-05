@@ -13,7 +13,7 @@ namespace Mathtone.NeuralNetworks.Training {
 
 		private readonly int width;
 		private readonly int height;
-		private NeuralNetwork network;
+		private readonly NeuralNetwork network;
 
 		public double LearningRate { get; set; } = 0.1;
 

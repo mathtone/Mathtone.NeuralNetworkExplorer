@@ -23,7 +23,6 @@ namespace Mathtone.NeuralNetworks {
 		/// <value>The output.</value>
 		public double[] Output => Layers.Last().Output;
 
-		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NeuralNetwork"/> class.
 		/// </summary>
@@ -45,11 +44,10 @@ namespace Mathtone.NeuralNetworks {
 		/// <param name="min">Minimum input weight value.</param>
 		/// <param name="max">Maximum input weight value.</param>
 		public virtual void Scramble(double min = 0, double max = 1) {
-			foreach (Layer layer in Layers) {
+			foreach (var layer in Layers) {
 				layer.Scramble(min, max);
 			}
 		}
-
 
 		/// <summary>
 		/// Computes the network's output from the specified input.
@@ -66,6 +64,4 @@ namespace Mathtone.NeuralNetworks {
 			return output;
 		}
 	}
-
-	
 }

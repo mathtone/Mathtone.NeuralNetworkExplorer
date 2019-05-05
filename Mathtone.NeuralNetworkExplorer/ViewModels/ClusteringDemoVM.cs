@@ -18,7 +18,7 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 	[Notifier(NotificationMode.Implicit)]
 	public class ClusteringDemoVM : ViewModel {
 
-		protected object locker = new object();
+		private object locker = new object();
 		protected NeuralNetwork network;
 
 		public int MapWidth { get; set; } = 100;
@@ -88,6 +88,8 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 				var s = BitMap.BackBufferStride;
 				var neurons = network.Layers[0].Neurons;
 				var i = 0;
+				var v = Convert.ToInt32(DisplayChannels.ShowRed) + Convert.ToInt32(DisplayChannels.ShowGreen) + Convert.ToInt32(DisplayChannels.ShowBlue);
+				var f = 1d / v;
 
 				for (var y = 0; y < h; y++) {
 					for (var x = 0; x < w; x++, i++) {
@@ -99,8 +101,7 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 						var b = DisplayChannels.ShowBlue ? weights[2] * 255 : 0;
 
 						if (DisplayChannels.ShowGrayscale) {
-							var v = Convert.ToInt32(DisplayChannels.ShowRed) + Convert.ToInt32(DisplayChannels.ShowGreen) + Convert.ToInt32(DisplayChannels.ShowBlue);
-							var f = 1d / v;
+							
 							var gray = (byte)(f * r + f * g + f * b);
 							pbuff[loc] = gray;
 							pbuff[loc + 1] = gray;
