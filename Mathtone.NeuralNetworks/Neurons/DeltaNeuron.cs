@@ -27,7 +27,7 @@ namespace Mathtone.NeuralNetworks.Neurons {
 			var rtn = 0.0;
 
 			// compute difference between inputs and weights
-			for (int i = 0; i < InputWeights.Length; i++) {
+			for (var i = 0; i < InputWeights.Length; i++) {
 				rtn += Math.Abs(InputWeights[i] - inputs[i]);
 			}
 			return rtn;

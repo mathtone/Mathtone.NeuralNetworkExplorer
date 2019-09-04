@@ -44,7 +44,7 @@ namespace Mathtone.NeuralNetworks {
 		/// <param name="min">Minimum input weight value.</param>
 		/// <param name="max">Maximum input weight value.</param>
 		public virtual void Scramble(double min = 0, double max = 1) {
-			foreach (var layer in Layers) {
+			foreach(var layer in Layers) {
 				layer.Scramble(min, max);
 			}
 		}
@@ -57,7 +57,7 @@ namespace Mathtone.NeuralNetworks {
 		public virtual double[] Compute(double[] input) {
 			var output = input;
 
-			foreach (var layer in Layers) {
+			foreach(var layer in Layers) {
 				output = layer.Compute(output);
 			}
 

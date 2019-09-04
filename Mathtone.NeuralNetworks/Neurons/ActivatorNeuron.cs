@@ -33,10 +33,10 @@ namespace Mathtone.NeuralNetworks.Neurons {
 		protected override double ComputeOutput(double[] input) {
 
 			var sum = 0.0;
-			var l = this.InputWeights.Length;
 
 			// compute weighted sum of inputs
-			for (var i = 0; i < l; i++) {
+			
+			for (var i = 0; i < this.InputWeights.Length; i++) {
 				sum += InputWeights[i] * input[i];
 			}
 			sum += Threshold;
