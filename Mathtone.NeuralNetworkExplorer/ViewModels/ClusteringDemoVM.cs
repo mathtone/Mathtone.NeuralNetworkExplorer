@@ -48,7 +48,7 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 
 		protected async Task Initialize() {
 			await Task.Factory.StartNew(() => {
-				lock (locker) {
+				lock(locker) {
 
 					Status = "Initializing";
 					CurrentIteration = 0;
@@ -57,7 +57,7 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 					network = new NeuralNetwork();
 
 					var l1 = new Layer(new DeltaNeuron[MapWidth * MapWidth]);
-					for (var i = 0; i < l1.Neurons.Length; i++) {
+					for(var i = 0; i < l1.Neurons.Length; i++) {
 						l1.Neurons[i] = new DeltaNeuron(3);
 					}
 
@@ -91,8 +91,8 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 				var v = Convert.ToInt32(DisplayChannels.ShowRed) + Convert.ToInt32(DisplayChannels.ShowGreen) + Convert.ToInt32(DisplayChannels.ShowBlue);
 				var f = 1d / v;
 
-				for (var y = 0; y < h; y++) {
-					for (var x = 0; x < w; x++, i++) {
+				for(var y = 0; y < h; y++) {
+					for(var x = 0; x < w; x++, i++) {
 
 						var loc = y * s + x * bpp;
 						var weights = neurons[i].InputWeights;
@@ -100,8 +100,8 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 						var g = DisplayChannels.ShowGreen ? weights[1] * 255 : 0;
 						var b = DisplayChannels.ShowBlue ? weights[2] * 255 : 0;
 
-						if (DisplayChannels.ShowGrayscale) {
-							
+						if(DisplayChannels.ShowGrayscale) {
+
 							var gray = (byte)(f * r + f * g + f * b);
 							pbuff[loc] = gray;
 							pbuff[loc + 1] = gray;
@@ -122,7 +122,7 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 
 		protected async Task BeginTrainNetwork() {
 			await Task.Factory.StartNew(() => {
-				lock (locker) {
+				lock(locker) {
 
 					ReadyToTrain = false;
 					Training = true;
@@ -138,22 +138,22 @@ namespace Mathtone.NeuralNetworkExplorer.ViewModels {
 					var maxIterations = Iterations + CurrentIteration;
 					var input = new double[3];
 
-					while (CurrentIteration < maxIterations && IsRunning) {
+					while(CurrentIteration < maxIterations && IsRunning) {
 
 						trainer.LearningRate = driftingLearningRate * (Iterations - localIteration) / Iterations + this.LearningRate;
 						trainer.LearningRadius = (double)ClusterRadius * (Iterations - localIteration) / Iterations;
 
-						for (var i = 0; i < input.Length; i++) {
+						for(var i = 0; i < input.Length; i++) {
 							input[i] = rand.NextDouble();
 						}
 
 						trainer.Run(input);
 
-						if (CurrentIteration % RefreshRate == 0) {
+						if(CurrentIteration % RefreshRate == 0) {
 							try {
 								BitMap.Dispatcher.Invoke(UpdateMap);
 							}
-							catch (TaskCanceledException) { }
+							catch(TaskCanceledException) { }
 						}
 						CurrentIteration++;
 						localIteration++;

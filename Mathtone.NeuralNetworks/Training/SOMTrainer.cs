@@ -41,8 +41,8 @@ namespace Mathtone.NeuralNetworks.Training {
 			var min = values[0];
 			var minIndex = 0;
 
-			for (int i = 1, n = values.Length; i < n; i++) {
-				if (values[i] < min) {
+			for(int i = 1, n = values.Length; i < n; i++) {
+				if(values[i] < min) {
 					min = values[i];
 					minIndex = i;
 				}
@@ -63,11 +63,11 @@ namespace Mathtone.NeuralNetworks.Training {
 			var winner = GetWinner(network.Compute(input));
 			var layer = network.Layers[0];
 
-			if (LearningRadius == 0) {
+			if(LearningRadius == 0) {
 				var neuron = layer.Neurons[winner];
 
 				// update weight of the winner only
-				for (int i = 0, n = neuron.InputWeights.Length; i < n; i++) {
+				for(int i = 0, n = neuron.InputWeights.Length; i < n; i++) {
 					neuron.InputWeights[i] += (input[i] - neuron.InputWeights[i]) * LearningRate;
 				}
 			}
@@ -77,14 +77,14 @@ namespace Mathtone.NeuralNetworks.Training {
 				var y = winner / height;
 				var l = layer.Neurons.Length;
 
-				for (int j = 0; j < l; j++) {
+				for(int j = 0; j < l; j++) {
 
 					var dx = (j % width) - x;
 					var dy = (j / height) - y;
 					var neuron = layer.Neurons[j];
 					var factor = Math.Exp(-(double)(dx * dx + dy * dy) / learningDiameter2);
 
-					for (int i = 0, n = neuron.InputWeights.Length; i < n; i++) {
+					for(int i = 0, n = neuron.InputWeights.Length; i < n; i++) {
 						var e = (input[i] - neuron.InputWeights[i]) * factor;
 						err += Math.Abs(e);
 						neuron.InputWeights[i] += e * LearningRate;
@@ -101,7 +101,7 @@ namespace Mathtone.NeuralNetworks.Training {
 		/// <returns>System.Double.</returns>
 		public double Run(double[][] input) {
 			var err = 0.0;
-			for (var i = 0; i < input.Length; i++) {
+			for(var i = 0; i < input.Length; i++) {
 				err += Run(input[i]);
 			}
 			return err;

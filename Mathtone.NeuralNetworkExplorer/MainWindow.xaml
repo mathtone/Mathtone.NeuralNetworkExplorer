@@ -13,7 +13,7 @@
 		Style="{StaticResource blackBG}"
 		Height="350"
 		Width="525">
-	
+
 	<controls:ClusteringDemoView DataContext="{Binding ClusteringDemo}"/>
-	
+
 </Window>

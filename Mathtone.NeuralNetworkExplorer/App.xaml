@@ -22,7 +22,7 @@
 		<Style TargetType="{x:Type controls:ClusteringDemoView}" BasedOn="{StaticResource controlBase}"/>
 
 		<Style TargetType="{x:Type CheckBox }" BasedOn="{StaticResource controlBase}"/>
-		
-		
+
+
 	</Application.Resources>
 </Application>
