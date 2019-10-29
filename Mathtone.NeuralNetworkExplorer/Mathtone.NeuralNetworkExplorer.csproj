@@ -39,8 +39,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mathtone.MIST, Version=2.0.6004.4855, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mathtone.MIST.3.0.0\lib\net46\Mathtone.MIST.dll</HintPath>
+    <Reference Include="Mathtone.MIST, Version=2.5.6355.41647, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mathtone.MIST.2.5.2\lib\net47\Mathtone.MIST.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
@@ -141,7 +141,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <UsingTask TaskName="Mathtone.MIST.NotificationWeaverBuildTask" AssemblyFile="..\packages\Mathtone.MIST.3.0.0\tools\net45\Mathtone.MIST.Builder.dll" />
+  <UsingTask TaskName="Mathtone.MIST.NotificationWeaverBuildTask" AssemblyFile="..\packages\Mathtone.MIST.2.5.2\tools\net47\Mathtone.MIST.Builder.dll" />
   <Target Name="AfterBuild">
     <NotificationWeaverBuildTask TargetPath="$(TargetPath)" DebugMode="True" />
   </Target>
