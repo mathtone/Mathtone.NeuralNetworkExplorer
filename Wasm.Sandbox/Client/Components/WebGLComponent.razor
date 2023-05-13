@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Components
+@inject IJSRuntime JSRuntime
+
+<canvas id="canvas" @ref="canvasRef"></canvas>
+
+@code {
+   private ElementReference canvasRef;
+   private bool isInitialized;
+
+   protected override async Task OnAfterRenderAsync(bool firstRender) {
+      if (firstRender && !isInitialized) {
+         isInitialized = true;
+         await JSRuntime.InvokeVoidAsync("webGLRenderer.init", canvasRef.Id);
+         await InitRenderer();
+      }
+   }
+
+   private async Task InitRenderer() {
+      // Set up WebGL rendering, shaders, buffers, etc.
+      // ...
+
+      // Render initial bitmap
+      byte[] initialBitmapData = GetInitialBitmapData();
+      await RenderBitmap(initialBitmapData);
+   }
+
+   private async Task RenderBitmap(byte[] bitmapData) {
+      // Pass bitmapData to WebGLRenderer for rendering
+      await JSRuntime.InvokeVoidAsync("webGLRenderer.renderBitmap", bitmapData);
+   }
+
+   private byte[] GetInitialBitmapData() {
+      // Modify the bitmap data here in C# and return it
+      // ...
+
+      return new byte[100];
+   }
+}
