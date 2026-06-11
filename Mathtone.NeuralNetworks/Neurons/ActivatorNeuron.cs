@@ -26,7 +26,7 @@ namespace Mathtone.NeuralNetworks.Neurons {
 		}
 
 		/// <summary>
-		/// Computes output value as the result off the activation function for the sum of tyhe input values.
+		/// Computes output value as the result of the activation function for the sum of the input values.
 		/// </summary>
 		/// <param name="input">Input values.</param>
 		/// <returns>Result of activation function.</returns>

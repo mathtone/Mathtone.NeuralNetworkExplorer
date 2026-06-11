@@ -28,7 +28,7 @@ namespace Mathtone.NeuralNetworks.Neurons {
 		}
 
 		/// <summary>
-		/// Randomizes imput weights.
+		/// Randomizes input weights.
 		/// </summary>
 		/// <param name="min">Minimum input weight value.</param>
 		/// <param name="max">Maximum input weight value.</param>
