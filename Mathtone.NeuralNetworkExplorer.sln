@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathtone.NeuralNetworkExplorer", "Mathtone.NeuralNetworkExplorer\Mathtone.NeuralNetworkExplorer.csproj", "{066FB9BF-3CDA-48A6-B3BD-E4CABA1B36DE}"
 EndProject
@@ -10,7 +10,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE.txt = LICENSE.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathtone.NeuralNetworks", "Mathtone.NeuralNetworks\Mathtone.NeuralNetworks.csproj", "{310A6158-C540-4100-98F2-64CD65B5CF71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mathtone.NeuralNetworks", "Mathtone.NeuralNetworks\Mathtone.NeuralNetworks.csproj", "{310A6158-C540-4100-98F2-64CD65B5CF71}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mathtone.NeuralNetworkExplorer.Wasm", "Mathtone.NeuralNetworkExplorer.Wasm\Mathtone.NeuralNetworkExplorer.Wasm.csproj", "{527BFB66-73E2-4256-82AB-74452C16881C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathtone.NeuralNetworkExplorer.Blazor", "Mathtone.NeuralNetworkExplorer.Blazor\Mathtone.NeuralNetworkExplorer.Blazor.csproj", "{0555C25A-8E11-4FCC-AD8A-1DF2B8D8B3F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm.Sandbox.Server", "Wasm.Sandbox\Server\Wasm.Sandbox.Server.csproj", "{CDCC42FC-4F15-4223-8DA6-4EE95FD43CDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm.Sandbox.Client", "Wasm.Sandbox\Client\Wasm.Sandbox.Client.csproj", "{C77675CD-8728-4337-8AE4-7D4B247C05E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm.Sandbox.Shared", "Wasm.Sandbox\Shared\Wasm.Sandbox.Shared.csproj", "{FCF32F56-ABD4-4F2E-ADE3-0E88303A27B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +36,26 @@ Global
 		{310A6158-C540-4100-98F2-64CD65B5CF71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{310A6158-C540-4100-98F2-64CD65B5CF71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{310A6158-C540-4100-98F2-64CD65B5CF71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{527BFB66-73E2-4256-82AB-74452C16881C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{527BFB66-73E2-4256-82AB-74452C16881C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{527BFB66-73E2-4256-82AB-74452C16881C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{527BFB66-73E2-4256-82AB-74452C16881C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0555C25A-8E11-4FCC-AD8A-1DF2B8D8B3F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0555C25A-8E11-4FCC-AD8A-1DF2B8D8B3F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0555C25A-8E11-4FCC-AD8A-1DF2B8D8B3F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0555C25A-8E11-4FCC-AD8A-1DF2B8D8B3F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDCC42FC-4F15-4223-8DA6-4EE95FD43CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDCC42FC-4F15-4223-8DA6-4EE95FD43CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDCC42FC-4F15-4223-8DA6-4EE95FD43CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDCC42FC-4F15-4223-8DA6-4EE95FD43CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C77675CD-8728-4337-8AE4-7D4B247C05E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C77675CD-8728-4337-8AE4-7D4B247C05E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C77675CD-8728-4337-8AE4-7D4B247C05E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C77675CD-8728-4337-8AE4-7D4B247C05E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCF32F56-ABD4-4F2E-ADE3-0E88303A27B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCF32F56-ABD4-4F2E-ADE3-0E88303A27B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCF32F56-ABD4-4F2E-ADE3-0E88303A27B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCF32F56-ABD4-4F2E-ADE3-0E88303A27B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

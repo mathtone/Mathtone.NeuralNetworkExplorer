@@ -1,0 +1,179 @@
+﻿@page "/"
+@using Mathtone.NeuralNetworks;
+@using Mathtone.NeuralNetworks.Neurons;
+@using Mathtone.NeuralNetworks.Training;
+@using SkiaSharp
+@using SkiaSharp.Views.Blazor
+
+<PageTitle>Self Organizing Map</PageTitle>
+
+<table style="background-color:black;">
+	<tr>
+		<td>
+			<SKCanvasView Width="500" Height="500" @ref="Canvas" OnPaintSurface="OnPaintSurface" />
+		</td>
+		<td>
+			<table>
+				<tr>
+					<td>Parameters</td>
+				</tr>
+				<tr>
+
+					<td>
+						<table>
+							<tr>
+								<td>Map Width</td>
+								<td><InputText @bind-Value="_mapWidth" /></td>
+							</tr>
+							<tr>
+								<td>Iterations</td>
+								<td><InputText @bind-Value="_iterations" /></td>
+							</tr>
+							<tr>
+								<td>IQ</td>
+								<td><InputText @bind-Value="_iq" /></td>
+							</tr>
+							<tr>
+								<td>Cluster Radius</td>
+								<td><InputText @bind-Value="_clusterRadius" /></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center">
+									<button @onclick="InitNetwork">Init</button>
+									<button @onclick="TrainNetwork">Train</button>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		</td>
+	</tr>
+</table>
+
+
+@code {
+	private SKCanvasView Canvas = new();
+
+	private SKBitmap _bitmap;
+	private Random _random = Random.Shared;
+	private System.Timers.Timer _timer = new();
+	private string _mapWidth = "100";
+	private string _iterations = "1000";
+	private string _iq = "0.2";
+	private string _clusterRadius = "7";
+	private NeuralNetwork? network;
+	bool IsRunning { get; set; } = false;
+	int Width => int.Parse(_mapWidth);
+
+	int Height => int.Parse(_mapWidth);
+
+	int Iterations => int.Parse(_iterations);
+
+	double LearningRate => double.Parse(_iq);
+
+	int CurrentIteration { get; set; }
+	int ClusterRadius => int.Parse(_clusterRadius);
+
+	public Index() => _bitmap = new SKBitmap(Width, Height);
+
+	protected override void OnInitialized() {
+		_timer = new(100);
+		_timer.Elapsed += async (s, e) => await InvokeAsync(async () => await UpdateMap());
+		_timer.Start();
+	}
+
+	private async Task InitNetwork() {
+
+		network = new NeuralNetwork();
+
+		var l1 = new Layer(new DeltaNeuron[Width * Height]);
+		for (var i = 0; i < l1.Neurons.Length; i++) {
+			l1.Neurons[i] = new DeltaNeuron(3);
+		}
+
+		l1.Scramble(0, 1);
+		network.Layers.Add(l1);
+		var neurons = network.Layers[0].Neurons;
+
+		var width = (int)Math.Sqrt(network.Layers[0].Neurons.Length);
+		_bitmap = new(Width, Height);
+		await Task.CompletedTask;
+	}
+
+	private async Task TrainNetwork() {
+		IsRunning = true;
+		var localIteration = 0;
+		var rand = new Random();
+		var width = (int)Math.Sqrt(network!.Layers[0].Neurons.Length);
+		var trainer = new SOMTrainer(width, width, network);
+		var fixedLearningRate = LearningRate / 10.0;
+		var driftingLearningRate = fixedLearningRate * 9.0;
+		var maxIterations = Iterations + CurrentIteration;
+		var input = new double[3];
+
+		while (CurrentIteration < maxIterations && IsRunning) {
+			trainer.LearningRate = driftingLearningRate * (Iterations - localIteration) / Iterations + this.LearningRate;
+			trainer.LearningRadius = (double)ClusterRadius * (Iterations - localIteration) / Iterations;
+			for (var i = 0; i < input.Length; i++) {
+				input[i] = rand.NextDouble();
+			}
+
+			try {
+				trainer.Run(input);
+			}
+			catch (Exception ex) {
+				Console.WriteLine(ex);
+			}
+
+			CurrentIteration++;
+			localIteration++;
+		}
+		await Task.CompletedTask;
+	}
+	private async Task UpdateMap() {
+		if (network == null) {
+			return;
+		}
+
+		var h = Height;
+		var w = Width;
+		var i = 0;
+		var neurons = network!.Layers[0].Neurons;
+
+		for (var y = 0; y < h; y++) {
+			for (var x = 0; x < w; x++, i++) {
+
+				var weights = neurons[i].InputWeights;
+				var r = (byte)(weights[0] * 255);
+				var g = (byte)(weights[1] * 255);
+				var b = (byte)(weights[2] * 255);
+				var color = new SKColor(r, g, b);
+				_bitmap.SetPixel(x, y, color);
+			}
+		}
+
+		//StateHasChanged();
+		Canvas.Invalidate();
+		await Task.CompletedTask;
+	}
+	private void OnPaintSurface(SKPaintSurfaceEventArgs e) {
+		var surface = e.Surface;
+		var canvas = surface.Canvas;
+		var info = e.Info;
+		var paint = new SKPaint {
+				FilterQuality = SKFilterQuality.High // Adjust for desired scaling quality
+			};
+		var destRect = new SKRect(0, 0, info.Width, info.Height);
+
+		e.Surface.Canvas.DrawBitmap(_bitmap, destRect, paint);
+	}
+
+	public void Dispose() {
+		//_timer?.Dispose();
+	}
+}
