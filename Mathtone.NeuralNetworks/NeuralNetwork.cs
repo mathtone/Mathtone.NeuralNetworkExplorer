@@ -18,7 +18,7 @@ namespace Mathtone.NeuralNetworks {
 		public IList<Layer> Layers { get; }
 
 		/// <summary>
-		/// Gets the output of th elast layer.
+		/// Gets the output of the last layer.
 		/// </summary>
 		/// <value>The output.</value>
 		public double[] Output => Layers.Last().Output;
@@ -39,7 +39,7 @@ namespace Mathtone.NeuralNetworks {
 		}
 
 		/// <summary>
-		/// Randomizes input weights for all neirons in the network.
+		/// Randomizes input weights for all neurons in the network.
 		/// </summary>
 		/// <param name="min">Minimum input weight value.</param>
 		/// <param name="max">Maximum input weight value.</param>
